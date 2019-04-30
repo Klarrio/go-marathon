@@ -32,7 +32,7 @@ type Container struct {
 // PortMapping is the portmapping structure between container and mesos
 type PortMapping struct {
 	ContainerPort int                `json:"containerPort,omitempty"`
-	HostPort      int                `json:"hostPort"`
+	HostPort      *int               `json:"hostPort,omitempty"`
 	Labels        *map[string]string `json:"labels,omitempty"`
 	Name          string             `json:"name,omitempty"`
 	ServicePort   int                `json:"servicePort,omitempty"`
@@ -267,7 +267,6 @@ func (container *Container) Expose(ports ...int) *Container {
 	for _, port := range ports {
 		container.ExposePort(PortMapping{
 			ContainerPort: port,
-			HostPort:      0,
 			ServicePort:   0,
 			Protocol:      "tcp"})
 	}
@@ -280,9 +279,9 @@ func (docker *Docker) Expose(ports ...int) *Docker {
 	for _, port := range ports {
 		docker.ExposePort(PortMapping{
 			ContainerPort: port,
-			HostPort:      0,
-			ServicePort:   0,
-			Protocol:      "tcp"})
+
+			ServicePort: 0,
+			Protocol:    "tcp"})
 	}
 	return docker
 }
@@ -293,7 +292,6 @@ func (container *Container) ExposeUDP(ports ...int) *Container {
 	for _, port := range ports {
 		container.ExposePort(PortMapping{
 			ContainerPort: port,
-			HostPort:      0,
 			ServicePort:   0,
 			Protocol:      "udp"})
 	}
@@ -306,7 +304,6 @@ func (docker *Docker) ExposeUDP(ports ...int) *Docker {
 	for _, port := range ports {
 		docker.ExposePort(PortMapping{
 			ContainerPort: port,
-			HostPort:      0,
 			ServicePort:   0,
 			Protocol:      "udp"})
 	}
