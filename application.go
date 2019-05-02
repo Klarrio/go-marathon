@@ -132,7 +132,7 @@ type VersionInfo struct {
 type Fetch struct {
 	URI        string `json:"uri"`
 	Executable bool   `json:"executable"`
-	Extract    bool   `json:"extract"`
+	Extract    bool   `json:"extract,omitempty"`
 	Cache      bool   `json:"cache"`
 }
 
